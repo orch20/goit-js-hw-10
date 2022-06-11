@@ -49,7 +49,6 @@ function render(countries) {
 }
 
 function renderCountriesParam(country) {
-  console.log(country);
   const name = country[0].name.official;
   const capital = country[0].capital;
   const population = country[0].population;
