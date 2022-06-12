@@ -22,3 +22,8 @@ body {
 img {
   display: inline-block;
 }
+
+li {
+  list-style-type: none;
+  cursor: pointer;
+}

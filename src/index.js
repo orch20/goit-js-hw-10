@@ -12,13 +12,21 @@ const refs = {
 };
 
 refs.input.addEventListener('input', debounce(searchCountry, DEBOUNCE_DELAY));
+refs.list.addEventListener('click', onClickItem);
+
+let globalName = '';
 
 function searchCountry(e) {
-  const name = e.target.value.trim();
-  fetchCountries(name).then(render).catch(onError);
-  if (name.length === 0) {
+  globalName = e.target.value.trim();
+  fetchCountries(globalName).then(render).catch(onError);
+  if (globalName.length === 0) {
     clearMarkup();
   }
+}
+function onClickItem(e) {
+  if (!e.target.nodeName === 'LI') return;
+  globalName = e.target.dataset.name;
+  fetchCountries(globalName).then(render).catch(onError);
 }
 
 function onError() {
@@ -29,8 +37,10 @@ function renderCountriesList(country) {
   const template = country
     .map(country => {
       const { name, flags } = country;
-      return `<img src="${flags[0]}" alt="${'flag of ' + name.common}" width="50"/>
-    <p>${name.common}</p>`;
+      return `<li data-name="${name.common}" > <img data-name="${name.common}" src="${
+        flags[0]
+      }" alt="${'flag of ' + name.common}" width="50"  />
+    <p data-name="${name.common}">${name.common}</p></li>`;
     })
     .join('');
   refs.list.innerHTML = template;
